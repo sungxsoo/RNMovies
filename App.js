@@ -1,23 +1,22 @@
-import {
-  NavigationContainer,
-  DarkTheme,
-  DefaultTheme,
-} from "@react-navigation/native";
-import { useAssets } from "expo-asset";
+import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import React, { useCallback, useEffect, useState } from "react";
-import { Text, View, Image } from "react-native";
+import React from "react";
 import Tabs from "./navigation/Tabs";
 import { Ionicons } from "@expo/vector-icons";
-import AppLoading from "expo-app-loading";
+import Stack from "./navigation/Stack";
+import Root from "./navigation/Root";
+import { useColorScheme } from "react-native";
+import { darkTheme, lightTheme } from "./styled";
+import { ThemeProvider } from "styled-components/native";
 export default function App() {
+  const isDark = useColorScheme() === "dark";
+
   const [fonts] = useFonts(Ionicons.font);
-  if (!fonts) {
-    return <AppLoading />;
-  }
   return (
-    <NavigationContainer>
-      <Tabs />
-    </NavigationContainer>
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <NavigationContainer>
+        <Root />
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
