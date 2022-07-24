@@ -16,6 +16,10 @@ const ListTitle = styled.Text`
   margin-left: 30px;
 `;
 
+const CommingSoonTitle = styled(ListTitle)`
+  margin-bottom: 30px;
+`;
+
 const Loader = styled.View`
   flex: 1;
   justify-content: center;
@@ -28,6 +32,22 @@ const ListContainer = styled.View`
 const Movie = styled.View`
   margin-right: 10px;
   align-items: center;
+`;
+
+const HMovie = styled.View`
+  padding: 0px 30px;
+  margin-bottom: 30px;
+  flex-direction: row;
+`;
+
+const HColumn = styled.View`
+  margin-left: 15px;
+  width: 80%;
+`;
+
+const Overview = styled.Text`
+  color: rgba(255, 255, 255, 0.8);
+  width: 80%;
 `;
 
 const TrendingScroll = styled.ScrollView`
@@ -43,6 +63,12 @@ const Title = styled.Text`
 const Votes = styled.Text`
   color: rgba(255, 255, 255, 0.8);
   font-size: 10px;
+`;
+
+const Release = styled.Text`
+  color: white;
+  font-size: 12px;
+  margin-vertical: 10px;
 `;
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -142,6 +168,27 @@ const Movies = () => {
             </Movie>
           ))}
         </TrendingScroll>
+      </ListContainer>
+
+      <ListContainer>
+        <CommingSoonTitle>Comming Soon</CommingSoonTitle>
+        {upComing.map((movie) => (
+          <HMovie key={movie.id}>
+            <Poster path={movie.poster_path} />
+            <HColumn>
+              <Title>{movie.original_title}</Title>
+              <Release>
+                {new Date(movie.release_date).toLocaleDateString("ko")}
+              </Release>
+
+              <Overview>
+                {movie.overview !== "" && movie.overview.length > 140
+                  ? `${movie.overview.slice(0, 140)}...`
+                  : movie.overview}
+              </Overview>
+            </HColumn>
+          </HMovie>
+        ))}
       </ListContainer>
     </Container>
   );
