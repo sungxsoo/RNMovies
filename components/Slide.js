@@ -37,10 +37,10 @@ const Votes = styled(Overview)`
 `;
 
 const Slide = ({
-  backdrop_path,
-  poster_path,
-  original_title,
-  vote_average,
+  backdropPath,
+  posterPath,
+  originalTitle,
+  voteAverage,
   overview,
 }) => {
   const isDark = useColorScheme() === "dark";
@@ -49,7 +49,7 @@ const Slide = ({
     <View style={{ flex: 1 }}>
       <BgImg
         style={StyleSheet.absoluteFill}
-        source={{ uri: makeImgPath(backdrop_path) }}
+        source={{ uri: makeImgPath(backdropPath) }}
       />
       <BlurView
         intensity={80}
@@ -57,12 +57,12 @@ const Slide = ({
         tint={isDark ? "dark" : "light"}
       >
         <Wrapper>
-          <Poster path={poster_path} />
+          <Poster path={posterPath} />
           <Column>
-            <Title isDark={isDark}>{original_title}</Title>
+            <Title isDark={isDark}>{originalTitle}</Title>
             <Overview isDark={isDark}>{overview.slice(0, 80)}...</Overview>
-            {vote_average > 0 ? (
-              <Votes isDark={isDark}>⭐{vote_average}/10</Votes>
+            {voteAverage > 0 ? (
+              <Votes isDark={isDark}>⭐{voteAverage}/10</Votes>
             ) : null}
           </Column>
         </Wrapper>
