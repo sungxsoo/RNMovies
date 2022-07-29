@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import { ActivityIndicator, Dimensions, FlatList } from "react-native";
 import Swiper from "react-native-swiper";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components/native";
 import { moviesApi } from "../api";
 import HMedia from "../components/HMedia";
@@ -45,21 +45,26 @@ const HSeparator = styled.View`
 `;
 
 const Movies = () => {
+  const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = useState(false);
   const { isLoading: nowPlayingLoading, data: nowPlayingData } = useQuery(
-    "nowPlaying",
+    ["movives", "nowPlaying"],
     moviesApi.nowPlaying
   );
   const { isLoading: upcomingLoading, data: upcomingData } = useQuery(
-    "upcoming",
+    ["movives", "upcoming"],
     moviesApi.upcoming
   );
   const { isLoading: trendingLoading, data: trendingData } = useQuery(
-    "trending",
+    ["movives", "trending"],
     moviesApi.trending
   );
 
-  const onRefresh = async () => {};
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await queryClient.refetchQueries(["movies"]);
+    setRefreshing(false);
+  };
   const renderVMedia = ({ item }) => (
     <VMedia
       posterPath={item.poster_path}
